@@ -24,3 +24,24 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 36px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 24px;
+}
+
+h3 {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+button {
+  cursor: pointer;
+}
