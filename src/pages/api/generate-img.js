@@ -1,4 +1,4 @@
-const { InferenceClient } = require("@huggingface/inference");
+import { InferenceClient } from "@huggingface/inference";
 
 const hfInferenceClient = new InferenceClient(process.env.HF_API_KEY);
 

@@ -5,7 +5,8 @@ import { ArrowDownTrayIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { generatePDF } from '@/utils/generate-pdf';
 import ServingsEditor from './ServingsEditor';
 import NutritionInfo, { NutritionInfoType } from './NutritionInfo';
-import * as motion from "motion/react-client"
+import * as motion from "motion/react-client";
+import Image from 'next/image';
 
 export type RecipeInfoType = {
   calories: number;
@@ -20,15 +21,17 @@ export type IngredientType = {
   name: string;
 }
 
+export type RecipeType = {
+  title: string;
+  imageUrl?: string;
+  recipeInfo: RecipeInfoType;
+  ingredients: IngredientType[];
+  instructions: string[];
+  nutritionInfo?: NutritionInfoType;
+}
+
 interface RecipeCardProps {
-  recipe: {
-    title: string;
-    imageUrl?: string;
-    recipeInfo: RecipeInfoType;
-    ingredients: IngredientType[];
-    instructions: string[];
-    nutritionInfo?: NutritionInfoType;
-  }
+  recipe: RecipeType;
   dismissRecipe: () => void;
 }
 
@@ -91,6 +94,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
             </button>
           </div>
           <h2 className="w-full text-center" style={{ fontSize: '1.875rem', lineHeight: '36px' }}>{title}</h2>
+          {imageUrl && <Image className="mx-auto my-4" src={imageUrl} alt={''} height={200} width={200} style={{ objectFit: "contain" }} />}
           <div className="bg-emerald-100 p-4 rounded-md flex flex-col gap-2">
             <dl className="flex flex-col align-center gap-4 mx-auto items-center">
               <div className="flex gap-4">
@@ -110,7 +114,6 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
             </dl>
           </div>
         </div>
-        {imageUrl && <img src={imageUrl} alt={title} />}
         <div>
           <h3>Ingredients</h3>
           <ul className="list-disc list-inside">

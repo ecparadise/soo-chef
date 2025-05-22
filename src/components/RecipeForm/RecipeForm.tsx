@@ -14,7 +14,7 @@ const RecipeForm: React.FC<{ handleSubmit: (e: React.FormEvent<HTMLFormElement>,
 
   return (
     <>
-      <h2 className="text-center">Let's cook something together!</h2>
+      <h2 className="text-center">{`Let\'s cook something together!`}</h2>
       <form onSubmit={(e) => handleSubmit(e, selectedPromptType, recipeInput, mealType)} className='w-full'>
         <RecipeInput selectedPromptType={selectedPromptType} setSelectedPromptType={setSelectedPromptType} value={recipeInput} onChange={(e) =>
           setRecipeInput(e.target.value)

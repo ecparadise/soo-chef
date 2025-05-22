@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import RecipeForm from '../RecipeForm/RecipeForm';
-import RecipeCard from '../RecipeCard/RecipeCard';
+import RecipeCard, { IngredientType, RecipeType } from '../RecipeCard/RecipeCard';
 import { generateDescriptionPrompt, generateIngredientsPrompt, generateSurpriseMePrompt } from '@/config/ai-model-config';
 import { AnimatePresence } from "motion/react"
 import Loader from '../Loader/Loader';
@@ -49,14 +49,14 @@ import axios from 'axios';
  * @param {string} mealType - The type of meal (e.g., breakfast, lunch, dinner).
  * @returns {Promise<void>} A promise that resolves when the recipe is generated.
  *
- * @state {any} recipe - The current recipe object, including its image URL.
+ * @state {RecipeType} recipe - The current recipe object, including its image URL.
  *
  * @dependencies
  * - `RecipeForm`: A child component for collecting user input.
  * - `RecipeCard`: A child component for displaying the generated recipe.
  */
 const BaseComponent: React.FC = () => {
-  const [recipe, setRecipe] = useState<any>(null);
+  const [recipe, setRecipe] = useState<RecipeType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const extractJSON = (str: string): string => {
@@ -111,9 +111,9 @@ const BaseComponent: React.FC = () => {
     }
   }
 
-  const getNutritionInfo = async (recipe: any) => {
+  const getNutritionInfo = async (recipe: RecipeType) => {
     const { ingredients } = recipe;
-    const ingredientsList = ingredients.map((ingredient: any) => {
+    const ingredientsList = ingredients.map((ingredient: IngredientType) => {
       const { quantity, unit, name } = ingredient;
       return `${quantity} ${unit} ${name}`;
     }).join(', ');
