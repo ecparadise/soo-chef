@@ -3,6 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-primary: #5d0ec0;
+  --color-neutral: #374151;
+  --color-neutral-hover: #6a7282;
 }
 
 @theme inline {
@@ -14,8 +17,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #101828;
     --foreground: #ededed;
+    --color-primary: #a684ff;
+    --color-neutral-hover: #6a7282;
+    --color-neutral: #d1d5dc;
   }
 }
 

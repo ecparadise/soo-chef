@@ -29,11 +29,11 @@ const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptTy
                 initial={false}
                 animate={{
                   borderBottomWidth: selectedPromptType === pType ? '2px' : '0px',
-                  borderBottomColor: selectedPromptType === pType ? '#5d0ec0' : 'rgba(93, 14, 192, 0)',
-                  color: selectedPromptType === pType ? '#5d0ec0' : '#374151',
+                  borderBottomColor: selectedPromptType === pType ? 'var(--color-primary)' : 'rgba(93, 14, 192, 0)',
+                  color: selectedPromptType === pType ? 'var(--color-primary)' : 'var(--color-neutral)',
                 }}
                 whileHover={{
-                  color: selectedPromptType === pType ? '#5d0ec0' : '#6a7282',
+                  color: selectedPromptType === pType ? 'var(--color-primary)' : 'var(--color-neutral-hover)',
                 }}
                 className={`cursor-pointer px-2 py-2 inputRadio font-semibold`}
               >
@@ -52,7 +52,7 @@ const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptTy
           value={value}
           onChange={onChange}
           rows={3}
-          className="block p-2.5 w-full text-sm text-gray-900 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-6"
+          className="block p-2.5 w-full text-sm text-gray-900 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-500 dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-6"
         />}
     </>
   );

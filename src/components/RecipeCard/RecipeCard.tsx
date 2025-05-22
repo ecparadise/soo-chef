@@ -44,7 +44,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
   const formatUnit = (quantity: number, unit: string) => {
     if (unit) {
       const plural = unit === 'pinch' ? 'es' : 's';
-      return quantity === 1 ? unit : unit + plural;
+      return quantity <= 1 ? unit : unit + plural;
     }
     return unit;
   }
@@ -95,7 +95,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
           </div>
           <h2 className="w-full text-center" style={{ fontSize: '1.875rem', lineHeight: '36px' }}>{title}</h2>
           {imageUrl && <Image className="mx-auto my-4" src={imageUrl} alt={''} height={200} width={200} style={{ objectFit: "contain" }} />}
-          <div className="bg-emerald-100 p-4 rounded-md flex flex-col gap-2">
+          <div className="bg-emerald-100 dark:bg-emerald-600 p-4 rounded-md flex flex-col gap-2">
             <dl className="flex flex-col align-center gap-4 mx-auto items-center">
               <div className="flex gap-4">
                 <div>

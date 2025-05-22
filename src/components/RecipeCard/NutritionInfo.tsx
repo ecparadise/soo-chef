@@ -19,7 +19,7 @@ const NutritionInfo: React.FC<NutritionInfoProps> = ({ nutritionInfo, servings }
   const { calories, protein, total_carbohydrate, total_fat, sodium, dietary_fiber } = nutritionInfo;
 
   return (
-    <div className="border p-4 rounded-md shadow-md bg-white">
+    <div className="border p-4 rounded-md shadow-md bg-white dark:bg-gray-300 dark:text-black">
       <h3>Nutrition Information (per serving)</h3>
       <ul style={{ listStyleType: 'none', padding: 0 }}>
         <li><strong>Calories:</strong> {calculateValuePerServing(calories, servings)} kcal</li>

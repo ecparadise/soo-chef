@@ -62,9 +62,9 @@ export const generateDescriptionPrompt = (description: string, mealType: string)
 }
 export const generateSurpriseMePrompt = (mealType: string) => {
   return {
-    prompt: `Given a meal type, generate a JSON describing a recipe with the fields ingredients (an array of objects with the fields quantity (number, using decimals not fractions), unit (string), and name (string)), instructions (a string array), a creative title (a string), and recipeInfo (an object with string fields calories, cookTime, prepTime, and servings). Guidelines: Be creative! Guidelines: ${guidelines}`,
+    prompt: `Given a meal type, generate a JSON describing a recipe with the fields ingredients (an array of objects with the fields quantity (number, using decimals not fractions), unit (string), and name (string)), instructions (a string array), a creative title (a string), and recipeInfo (an object with string fields calories, cookTime, prepTime, and servings). Guidelines:\n -Be creative! ${guidelines}`,
     userMessage: `Meal type: ${mealType}`
   }
 }
 
-export const guidelines = '\n-Make sure the selected ingredients complement each other for a great-tasting, realistic dish.\n-Ensure the recipe suits the given meal type.\n-Be creative with the title and concise yet clear with instructions.\n -The ingredient unit should be one of the following: ["g", "kg", "ml", "l", "cup", "tbsp", "tsp", "oz", "lb", "clove", "piece", "pinch", ""] \n-Return only valid, structured JSON — no explanations or extra text.'
+export const guidelines = '\n-Make sure the selected ingredients complement each other for a great-tasting, realistic dish.\n-Ensure the recipe suits the given meal type.\n-Be creative with the title and concise yet clear with instructions.\n -The ingredient unit should be one of the following: ["g", "kg", "ml", "l", "cup", "tbsp", "tsp", "oz", "lb", "clove", "piece", "pinch", ""]. Use an empty string if no unit is needed. \n-Return only valid, structured JSON — no explanations or extra text.'
