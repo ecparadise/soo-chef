@@ -67,4 +67,4 @@ export const generateSurpriseMePrompt = (mealType: string) => {
   }
 }
 
-export const guidelines = '\n-Make sure the selected ingredients complement each other for a great-tasting, realistic dish.\n-Ensure the recipe suits the given meal type.\n-Be creative with the title and concise yet clear with instructions.\n -The ingredient unit should be one of the following: ["g", "kg", "ml", "l", "cup", "tbsp", "tsp", "oz", "lb", "clove", "piece", "pinch", ""]. Use an empty string if no unit is needed. \n-Return only valid, structured JSON — no explanations or extra text.'
+export const guidelines = '\n-Use only ingredients that complement each other for a great-tasting, realistic dish.\n-Ensure the recipe suits the given meal type.\n-Be creative with the title and concise yet clear with instructions.\n -The ingredient unit should be one of the following: ["g", "kg", "ml", "l", "cup", "tbsp", "tsp", "oz", "lb", "clove", "piece", "pinch", ""]. Use an empty string if no unit is needed. \n-Return only valid, structured JSON — no explanations or extra text.'
