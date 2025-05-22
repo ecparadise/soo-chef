@@ -49,20 +49,20 @@ export const recipeResponseSchema = {
 
 export const generateIngredientsPrompt = (ingredients: string, mealType: string) => {
   return {
-    prompt: `Given a list of ingredients and a meal type, please generate a JSON describing a recipe with the fields ingredients (an array of objects with the fields quantity (number, using decimals not fractions), unit (string), and name (string)), instructions (a string array), a creative title (a string), and recipeInfo (an object with string fields calories, cookTime, prepTime, and servings). Guidelines:\n-You do not need to use all provided ingredients. ${guidelines}`,
+    prompt: `Given a list of ingredients and a meal type, please generate a JSON describing a recipe with the fields ingredients (an array of objects with the fields quantity (number, using decimals not fractions), unit (string), and name (string)), instructions (a string array), a creative title (a string), and recipeInfo (an object with calories (string), cookTime (string), prepTime (string), and servings (number)). Guidelines:\n-You do not need to use all provided ingredients. ${guidelines}`,
     userMessage: `Ingredients: ${ingredients}. Meal type: ${mealType}`
   }
 }
 
 export const generateDescriptionPrompt = (description: string, mealType: string) => {
   return {
-    prompt: `Given a description of a recipe and a meal type, please generate a JSON describing a recipe with the fields ingredients (an array of objects with the fields quantity (number, using decimals not fractions), unit (string), and name (string)), instructions (a string array), a creative title (a string), and recipeInfo (an object with string fields calories, cookTime, prepTime, and servings). Guidelines: ${guidelines}`,
+    prompt: `Given a description of a recipe and a meal type, please generate a JSON describing a recipe with the fields ingredients (an array of objects with the fields quantity (number, using decimals not fractions), unit (string), and name (string)), instructions (a string array), a creative title (a string), and recipeInfo (an object with string fields calories (string), cookTime (string), prepTime (string), and servings (number)). Guidelines: ${guidelines}`,
     userMessage: `Description: ${description}. Meal type: ${mealType}`
   }
 }
 export const generateSurpriseMePrompt = (mealType: string) => {
   return {
-    prompt: `Given a meal type, generate a JSON describing a recipe with the fields ingredients (an array of objects with the fields quantity (number, using decimals not fractions), unit (string), and name (string)), instructions (a string array), a creative title (a string), and recipeInfo (an object with string fields calories, cookTime, prepTime, and servings). Guidelines:\n -Be creative! ${guidelines}`,
+    prompt: `Given a meal type, generate a JSON describing a recipe with the fields ingredients (an array of objects with the fields quantity (number, using decimals not fractions), unit (string), and name (string)), instructions (a string array), a creative title (a string), and recipeInfo (an object with fields calories (string), cookTime (string), prepTime (string), and servings (number)). Guidelines:\n -Be creative! ${guidelines}`,
     userMessage: `Meal type: ${mealType}`
   }
 }
