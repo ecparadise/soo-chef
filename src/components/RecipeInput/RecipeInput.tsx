@@ -2,15 +2,43 @@
 import React from 'react';
 import { instructions, promptTypes } from './constants';
 import * as motion from "motion/react-client"
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { IFormValues, PromptType } from '../RecipeForm/RecipeForm';
+import { getInputId } from '@/utils/form-helper';
 
 interface InputTypeProps {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  selectedPromptType: string;
-  setSelectedPromptType: (value: string) => void;
+  selectedPromptType: PromptType;
+  setSelectedPromptType: (value: PromptType) => void;
+  register: UseFormRegister<IFormValues>;
+  errors: FieldErrors<IFormValues>;
 }
 
-const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptType, setSelectedPromptType }) => {
+const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptType, setSelectedPromptType, register, errors }) => {
+
+  const renderInputBox = () => {
+    const formId = getInputId(selectedPromptType);
+    const errorsForId = errors?.[formId];
+    return (
+      <div className="mb-6">
+        <motion.textarea
+          {...register(formId, { required: true })}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+          placeholder={instructions[selectedPromptType] || 'Enter your input here...'}
+          value={value}
+          onChange={onChange}
+          rows={3}
+          aria-invalid={errorsForId ? "true" : "false"}
+          className={`block p-2.5 w-full text-sm text-gray-900 rounded-md border ${errorsForId ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-500 focus:ring-blue-500 focus:border-blue-500'} dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+        />
+        {errorsForId && (<p role="alert" className="text-red-500 text-sm">{`${selectedPromptType} cannot be blank`}</p>)}
+      </div>
+    )
+  }
 
   return (
     <>
@@ -25,7 +53,7 @@ const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptTy
                 aria-checked={selectedPromptType === pType}
                 tabIndex={0}
                 data-value={pType}
-                onClick={() => setSelectedPromptType(pType)}
+                onClick={() => setSelectedPromptType(pType as PromptType)}
                 initial={false}
                 animate={{
                   borderBottomWidth: selectedPromptType === pType ? '2px' : '0px',
@@ -43,17 +71,8 @@ const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptTy
         </fieldset>
       </div>
       {selectedPromptType !== 'Surprise me!' &&
-        <motion.textarea
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
-          placeholder={instructions[selectedPromptType] || 'Enter your input here...'}
-          value={value}
-          onChange={onChange}
-          rows={3}
-          className="block p-2.5 w-full text-sm text-gray-900 rounded-md border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-500 dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-6"
-        />}
+        renderInputBox()
+      }
     </>
   );
 };

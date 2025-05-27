@@ -131,8 +131,7 @@ const BaseComponent: React.FC = () => {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, promptType: string, userInput: string, mealType: string) => {
-    e.preventDefault();
+  const handleSubmit = async (promptType: string, userInput: string, mealType: string) => {
     setIsLoading(true);
     const recipe = await generateRecipe(promptType, userInput, mealType);
     if (!recipe) {
@@ -152,7 +151,7 @@ const BaseComponent: React.FC = () => {
     <div>
       {isLoading ? <Loader /> :
         (!recipe ?
-          <RecipeForm handleSubmit={handleSubmit} /> :
+          <RecipeForm onSubmit={handleSubmit} /> :
           <AnimatePresence>
             <RecipeCard recipe={recipe} dismissRecipe={() => setRecipe(null)} />
           </AnimatePresence>
