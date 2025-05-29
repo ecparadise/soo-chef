@@ -7,7 +7,7 @@ import { AnimatePresence } from "motion/react"
 import Loader from '../Loader/Loader';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 /**
  * BaseComponent is a React functional component that provides functionality
@@ -58,7 +58,9 @@ import { useRouter } from 'next/router';
  * - `RecipeCard`: A child component for displaying the generated recipe.
  */
 const BaseComponent: React.FC = () => {
-  const [recipe, setRecipe] = useState<RecipeType | null>(null);
+  const searchParams = useSearchParams()
+  const recipeQuery = searchParams?.get('recipe');
+  const [recipe, setRecipe] = useState<RecipeType | null>(recipeQuery ? JSON.parse(recipeQuery) : null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 

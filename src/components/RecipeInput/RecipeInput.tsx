@@ -24,6 +24,7 @@ const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptTy
       <div className="mb-6">
         <motion.textarea
           {...register(formId, { required: true })}
+          key={formId}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
@@ -36,6 +37,7 @@ const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptTy
           className={`block p-2.5 w-full text-sm text-gray-900 rounded-md border ${errorsForId ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-500 focus:ring-blue-500 focus:border-blue-500'} dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
         />
         {errorsForId && (<p role="alert" className="text-red-500 text-sm">{`${selectedPromptType} cannot be blank`}</p>)}
+
       </div>
     )
   }

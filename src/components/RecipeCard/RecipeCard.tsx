@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { ArrowDownTrayIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon, ArrowLeftIcon, LinkIcon } from '@heroicons/react/24/outline';
 import { generatePDF } from '@/utils/generate-pdf';
 import ServingsEditor from './ServingsEditor';
 import NutritionInfo, { NutritionInfoType } from './NutritionInfo';
@@ -108,16 +108,14 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
   }
 
   const onBackClick = () => {
-    toast(GoBackToast, { onClose: onCloseToast, hideProgressBar: true, autoClose: false, position: 'top-left', className: 'dark:bg-gray-900!' })
+    toast(GoBackToast, { onOpen: addOverlay, onClose: onCloseToast, hideProgressBar: true, autoClose: false, position: 'top-left', className: 'dark:bg-gray-900!' });
   }
 
-  toast.onChange(payload => {
+  const addOverlay = () => {
     const overlay = document.getElementById('overlay');
-    if (payload.status === "added") {
-      overlay?.classList.remove('hidden');
-      overlay?.classList.add('block');
-    }
-  })
+    overlay?.classList.remove('hidden');
+    overlay?.classList.add('block');
+  }
 
   const updateServings = (newServings: number) => {
     setServings(newServings);
@@ -133,6 +131,19 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
     setScalableIngredients(newIngredients);
   }
 
+  const copyRecipeLink = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('recipe', JSON.stringify(recipe));
+    navigator.clipboard.writeText(url.toString())
+      .then(() => {
+        toast.success('Recipe link copied to clipboard!', { className: 'text-foreground!' });
+      })
+      .catch((error) => {
+        console.error('Failed to copy recipe link:', error);
+        toast.error('Failed to copy recipe link.', { className: 'text-foreground!' });
+      });
+  }
+
   return (
     <>
       <div id="overlay" className="hidden fixed top-0 left-0 w-full h-full bg-gray-900 opacity-75 z-1000"></div>
@@ -144,9 +155,14 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
           <div>
             <div className="flex justify-between">
               <button aria-label="Go back" onClick={onBackClick}><ArrowLeftIcon className="w-6 h-6" /></button>
-              <button aria-label="Download recipe" onClick={downloadRecipe}>
-                <ArrowDownTrayIcon className="w-6 h-6" />
-              </button>
+              <div className="flex gap-2">
+                <button aria-label="Download recipe" onClick={downloadRecipe}>
+                  <ArrowDownTrayIcon className="w-6 h-6" />
+                </button>
+                <button aria-label="Copy link" onClick={copyRecipeLink}>
+                  <LinkIcon className="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <h2 className="w-full text-center" style={{ fontSize: '1.875rem', lineHeight: '36px' }}>{title}</h2>
             {imageUrl && <Image className="mx-auto my-4" src={imageUrl} alt={''} height={200} width={200} style={{ objectFit: "contain" }} />}
