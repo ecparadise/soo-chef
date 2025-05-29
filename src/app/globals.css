@@ -13,6 +13,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --breakpoint-xs: 30rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,4 +51,15 @@ h3 {
 
 button {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 480px) {
+  .Toastify__toast {
+    --toastify-toast-width: 95%;
+    margin-bottom: 0;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4px;
+  }
 }

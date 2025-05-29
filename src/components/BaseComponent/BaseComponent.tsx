@@ -1,11 +1,13 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RecipeForm from '../RecipeForm/RecipeForm';
 import RecipeCard, { IngredientType, RecipeType } from '../RecipeCard/RecipeCard';
 import { generateDescriptionPrompt, generateIngredientsPrompt, generateSurpriseMePrompt } from '@/config/ai-model-config';
 import { AnimatePresence } from "motion/react"
 import Loader from '../Loader/Loader';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 /**
  * BaseComponent is a React functional component that provides functionality
@@ -58,6 +60,16 @@ import axios from 'axios';
 const BaseComponent: React.FC = () => {
   const [recipe, setRecipe] = useState<RecipeType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia) {
+      setIsDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches)
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+      setIsDarkMode(event.matches);
+    });
+  }, [])
 
   const extractJSON = (str: string): string => {
     const start = '```json';
@@ -135,7 +147,7 @@ const BaseComponent: React.FC = () => {
     setIsLoading(true);
     const recipe = await generateRecipe(promptType, userInput, mealType);
     if (!recipe) {
-      alert('Error generating recipe. Please try again.');
+      toast.error('Error generating recipe. Please try again.', { className: 'text-foreground!' });
       setIsLoading(false);
       return;
     }
@@ -149,7 +161,7 @@ const BaseComponent: React.FC = () => {
 
   return (
     <div>
-      {isLoading ? <Loader /> :
+      {isLoading ? <Loader isDarkMode={isDarkMode} /> :
         (!recipe ?
           <RecipeForm onSubmit={handleSubmit} /> :
           <AnimatePresence>
@@ -157,6 +169,7 @@ const BaseComponent: React.FC = () => {
           </AnimatePresence>
         )
       }
+      <ToastContainer theme={isDarkMode ? 'dark' : 'light'} />
     </div>
   );
 };
