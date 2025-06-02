@@ -133,7 +133,9 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
 
   const copyRecipeLink = () => {
     const url = new URL(window.location.href);
-    url.searchParams.set('recipe', JSON.stringify(recipe));
+    const { imageUrl, ...recipeWithoutImage } = recipe;
+    const compressedRecipe = btoa(encodeURIComponent(JSON.stringify(recipeWithoutImage)));
+    url.searchParams.set('recipe', compressedRecipe);
     navigator.clipboard.writeText(url.toString())
       .then(() => {
         toast.success('Recipe link copied to clipboard!', { className: 'text-foreground!' });

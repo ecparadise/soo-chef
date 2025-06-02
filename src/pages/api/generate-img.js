@@ -4,7 +4,7 @@ const hfInferenceClient = new InferenceClient(process.env.HF_API_KEY);
 
 const generateRecipeImage = async (recipeTitle) => {
   const prompt = recipeTitle
-    ? `A high resolution image for a recipe with the title: ${recipeTitle}`
+    ? `A high resolution image for a recipe with the title: ${recipeTitle}. Only include ingredients mentioned in the title.`
     : 'A generic high resolution image for a recipe';
 
   try {

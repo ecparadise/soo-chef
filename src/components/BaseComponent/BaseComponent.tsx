@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import RecipeForm from '../RecipeForm/RecipeForm';
+import RecipeForm, { IRecipeInput, PromptType } from '../RecipeForm/RecipeForm';
 import RecipeCard, { IngredientType, RecipeType } from '../RecipeCard/RecipeCard';
 import { generateDescriptionPrompt, generateIngredientsPrompt, generateSurpriseMePrompt } from '@/config/ai-model-config';
 import { AnimatePresence } from "motion/react"
@@ -60,9 +60,23 @@ import { useSearchParams } from 'next/navigation';
 const BaseComponent: React.FC = () => {
   const searchParams = useSearchParams()
   const recipeQuery = searchParams?.get('recipe');
-  const [recipe, setRecipe] = useState<RecipeType | null>(recipeQuery ? JSON.parse(recipeQuery) : null);
+  const decompressRecipe = (compressed: string) => {
+    const decoded = decodeURIComponent(atob(compressed));
+    try {
+      return JSON.parse(decoded);
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      return null;
+    }
+  };
+  const recipeQueryDecompressed = recipeQuery ? decompressRecipe(recipeQuery) : null;
+  const [recipe, setRecipe] = useState<RecipeType | null>(recipeQueryDecompressed);
   const [isLoading, setIsLoading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [mealType, setMealType] = useState<string>('Breakfast');
+  const [recipeInput, setRecipeInput] = useState<IRecipeInput>({ Ingredients: '', Description: '', 'Surprise me!': '' });
+  const [selectedPromptType, setSelectedPromptType] = useState<PromptType>('Ingredients');
+  const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
 
   useEffect(() => {
     if (window.matchMedia) {
@@ -95,19 +109,18 @@ const BaseComponent: React.FC = () => {
     }
   }
 
-  const generatePrompt = (promptType: string, userInput: string, mealType: string) => {
+  const generatePrompt = (promptType: string, userInput: string, mealType: string, preferences: string[]) => {
     switch (promptType) {
       case 'Ingredients':
-        return generateIngredientsPrompt(userInput, mealType);
+        return generateIngredientsPrompt(userInput, mealType, preferences);
       case 'Description':
-        return generateDescriptionPrompt(userInput, mealType);
+        return generateDescriptionPrompt(userInput, mealType, preferences);
       default:
-        return generateSurpriseMePrompt(mealType);
+        return generateSurpriseMePrompt(mealType, preferences);
     }
   }
 
-  const generateRecipe = async (promptType: string, userInput: string, mealType: string) => {
-    const { prompt, userMessage } = generatePrompt(promptType, userInput, mealType);
+  const generateRecipe = async (prompt: string, userMessage: string) => {
     try {
       const response = await axios.post('/api/generate-recipe', {
         prompt,
@@ -145,9 +158,10 @@ const BaseComponent: React.FC = () => {
     }
   }
 
-  const handleSubmit = async (promptType: string, userInput: string, mealType: string) => {
+  const handleSubmit = async (promptType: string, userInput: string, mealType: string, selectedPreferences: string[]) => {
     setIsLoading(true);
-    const recipe = await generateRecipe(promptType, userInput, mealType);
+    const { prompt, userMessage } = generatePrompt(promptType, userInput, mealType, selectedPreferences);
+    const recipe = await generateRecipe(prompt, userMessage);
     if (!recipe) {
       toast.error('Error generating recipe. Please try again.', { className: 'text-foreground!' });
       setIsLoading(false);
@@ -165,7 +179,18 @@ const BaseComponent: React.FC = () => {
     <div>
       {isLoading ? <Loader isDarkMode={isDarkMode} /> :
         (!recipe ?
-          <RecipeForm onSubmit={handleSubmit} /> :
+          <RecipeForm
+            onSubmit={handleSubmit}
+            recipeInput={recipeInput}
+            setRecipeInput={setRecipeInput}
+            mealType={mealType}
+            setMealType={setMealType}
+            selectedPromptType={selectedPromptType}
+            setSelectedPromptType={setSelectedPromptType}
+            selectedPreferences={selectedPreferences}
+            setSelectedPreferences={setSelectedPreferences}
+            isDarkMode={isDarkMode}
+          /> :
           <AnimatePresence>
             <RecipeCard recipe={recipe} dismissRecipe={() => setRecipe(null)} />
           </AnimatePresence>
