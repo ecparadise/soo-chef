@@ -5,7 +5,7 @@ import * as motion from "motion/react-client"
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { IFormValues, PromptType } from '../RecipeForm/RecipeForm';
 import { getInputId } from '@/utils/form-helper';
-import { XCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 interface InputTypeProps {
   value: string;
@@ -18,6 +18,11 @@ interface InputTypeProps {
 }
 
 const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptType, setSelectedPromptType, register, errors, onClear }) => {
+
+
+  const generateId = (type: string) => {
+    return type.replace(/\s+/g, '-').toLowerCase();
+  }
 
   const renderInputBox = () => {
     const formId = getInputId(selectedPromptType);
@@ -36,6 +41,7 @@ const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptTy
           onChange={onChange}
           rows={3}
           aria-invalid={errorsForId ? "true" : "false"}
+          aria-labelledby={generateId(selectedPromptType)}
           className={`block p-2.5 w-full text-sm text-gray-900 rounded-md border ${errorsForId ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 dark:border-gray-500 focus:ring-blue-500 focus:border-blue-500'} dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
         />
         {errorsForId && (<p role="alert" className="text-red-500 text-sm">{`${selectedPromptType} cannot be blank`}</p>)}
@@ -56,6 +62,7 @@ const InputType: React.FC<InputTypeProps> = ({ value, onChange, selectedPromptTy
             {promptTypes.map((pType) =>
               <motion.span
                 key={pType}
+                id={generateId(pType)}
                 role="radio"
                 aria-checked={selectedPromptType === pType}
                 tabIndex={0}

@@ -19,7 +19,7 @@ const Preferences: React.FC<PreferencesProps> = ({ selectedPreferences, setSelec
   return (
     <div>
       <span className="font-semibold" id="preferences-label">Preferences</span>
-      <div role="group" aria-labelledby="preferences-label" className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+      <div role="group" aria-labelledby="preferences-label" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {preferenceOptions.map((preference) => <PreferenceButton label={preference} key={preference} onClick={() => handlePreferenceClick(preference)} isSelected={selectedPreferences.includes(preference)} />)}
       </div>
     </div>);

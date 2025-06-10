@@ -7,6 +7,7 @@ import * as motion from "motion/react-client"
 import { set, useForm } from "react-hook-form"
 import { getInputId } from '@/utils/form-helper';
 import Preferences from '../Preferences/Preferences';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 export interface IFormValues {
   'ingredients-textarea': string;
@@ -78,27 +79,35 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onSubmit, recipeInput, setRecip
         <Preferences selectedPreferences={selectedPreferences} setSelectedPreferences={setSelectedPreferences} />
         <motion.button
           type="button"
-          className="mt-4 py-2 px-4 rounded w-full border"
+          className="mt-4 py-2 px-4 rounded w-full border flex items-center justify-center gap-2 font-bold"
           animate={{
-            borderColor: isDarkMode ? '#e7000b' : '#9f0712',
-            color: isDarkMode ? '#e7000b' : '#9f0712'
+            borderColor: isDarkMode ? '#ff637e' : '#a50036',
+            color: isDarkMode ? '#ff637e' : '#a50036',
+            backgroundColor: 'transparent'
           }}
           whileHover={{
-            backgroundColor: '#e7000b',
-            color: '#ffffff'
+            backgroundColor: isDarkMode ? '#ff637e' : '#fff1f2',
+            borderColor: isDarkMode ? '#ff637e' : '#a50036',
+            color: isDarkMode ? '#fff' : '#a50036'
+          }}
+          whileTap={{
+            backgroundColor: isDarkMode ? '#ec003f' : '#ffa1ad',
+            color: isDarkMode ? '#fff' : '#a50036',
+            borderColor: isDarkMode ? '#ec003f' : '#a50036'
           }}
           onClick={onReset}
         >
+          <XMarkIcon aria-hidden='true' className="w-4 h-4" />
           {'Reset selections'}
         </motion.button>
         <motion.button
           type="submit"
-          className="mt-4 text-white py-2 px-4 rounded w-full"
+          className="mt-4 text-white py-2 px-4 rounded w-full font-bold dark:text-gray-900"
           animate={{
-            backgroundColor: '#00bc7d'
+            backgroundColor: isDarkMode ? '#009966' : '#007a55'
           }}
           whileHover={{
-            backgroundColor: '#009966'
+            backgroundColor: isDarkMode ? '#00d492' : '#009966'
           }}
         >
           {'Generate Recipe'}
