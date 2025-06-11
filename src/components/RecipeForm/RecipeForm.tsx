@@ -1,10 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import MealTypeDropdown from '../MealTypeDropdown/MealTypeDropdown';
 import { mealTypeOptions } from './constants';
 import RecipeInput from '../RecipeInput/RecipeInput';
 import * as motion from "motion/react-client"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { getInputId } from '@/utils/form-helper';
 import Preferences from '../Preferences/Preferences';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -42,7 +42,6 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onSubmit, recipeInput, setRecip
     clearErrors,
     formState: { errors },
     resetField,
-    reset
   } = useForm<IFormValues>()
 
   const submitForm = () => {

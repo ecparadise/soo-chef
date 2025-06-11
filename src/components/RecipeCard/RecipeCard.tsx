@@ -133,7 +133,8 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
 
   const copyRecipeLink = () => {
     const url = new URL(window.location.href);
-    const { imageUrl, ...recipeWithoutImage } = recipe;
+    const recipeWithoutImage = { ...recipe };
+    delete recipeWithoutImage.imageUrl;
     const compressedRecipe = btoa(encodeURIComponent(JSON.stringify(recipeWithoutImage)));
     url.searchParams.set('recipe', compressedRecipe);
     navigator.clipboard.writeText(url.toString())
