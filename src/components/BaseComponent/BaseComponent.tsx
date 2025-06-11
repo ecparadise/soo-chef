@@ -178,23 +178,22 @@ const BaseComponent: React.FC = () => {
   return (
     <div>
       {isLoading ? <Loader isDarkMode={isDarkMode} /> :
-        (!recipe ?
-          <RecipeForm
-            onSubmit={handleSubmit}
-            recipeInput={recipeInput}
-            setRecipeInput={setRecipeInput}
-            mealType={mealType}
-            setMealType={setMealType}
-            selectedPromptType={selectedPromptType}
-            setSelectedPromptType={setSelectedPromptType}
-            selectedPreferences={selectedPreferences}
-            setSelectedPreferences={setSelectedPreferences}
-            isDarkMode={isDarkMode}
-          /> :
-          <AnimatePresence>
-            <RecipeCard recipe={recipe} dismissRecipe={() => setRecipe(null)} />
-          </AnimatePresence>
-        )
+        <AnimatePresence>
+          {!recipe ?
+            <RecipeForm
+              onSubmit={handleSubmit}
+              recipeInput={recipeInput}
+              setRecipeInput={setRecipeInput}
+              mealType={mealType}
+              setMealType={setMealType}
+              selectedPromptType={selectedPromptType}
+              setSelectedPromptType={setSelectedPromptType}
+              selectedPreferences={selectedPreferences}
+              setSelectedPreferences={setSelectedPreferences}
+              isDarkMode={isDarkMode}
+            />
+            : <RecipeCard recipe={recipe} dismissRecipe={() => setRecipe(null)} />}
+        </AnimatePresence>
       }
       <ToastContainer theme={isDarkMode ? 'dark' : 'light'} />
     </div>

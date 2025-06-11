@@ -38,7 +38,6 @@ interface RecipeCardProps {
 
 const GoBackToast = ({ closeToast }: ToastContentProps) => {
   return (
-    // <div className="grid grid-rows-[1fr_1px_.5fr] w-full">
     <div className="grid grid-cols-[1fr_1px_.5fr] xs:grid-cols-[1fr_1px_1fr] w-full">
       <div className="flex flex-col p-2">
         <h3 className="text-foreground text-sm font-semibold">Go back?</h3>
@@ -148,12 +147,13 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
   }
 
   return (
-    <>
+    <motion.div initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.75 }}
+      exit={{ opacity: 0, y: -20 }}>
       <div id="overlay" className="hidden fixed top-0 left-0 w-full h-full bg-gray-900 opacity-75 z-1000"></div>
-      <motion.div initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        exit={{ opacity: 0, y: 50 }}>
+      <motion.div
+      >
         <div className="flex flex-col gap-4">
           <div>
             <div className="flex justify-between">
@@ -208,7 +208,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe, dismissRecipe }) => {
           {nutritionInfo ? <NutritionInfo nutritionInfo={nutritionInfo} servings={baseServings} /> : <div>{`Estimated calories per serving: ${calories}`}</div>}
         </div>
       </motion.div>
-    </>
+    </motion.div>
   );
 };
 

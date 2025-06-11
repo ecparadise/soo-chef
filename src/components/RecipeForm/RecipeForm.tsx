@@ -7,7 +7,6 @@ import * as motion from "motion/react-client"
 import { useForm } from "react-hook-form"
 import { getInputId } from '@/utils/form-helper';
 import Preferences from '../Preferences/Preferences';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 
 export interface IFormValues {
   'ingredients-textarea': string;
@@ -70,35 +69,12 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onSubmit, recipeInput, setRecip
 
 
   return (
-    <>
+    <motion.div transition={{ delay: 0.75, duration: 0.75 }}>
       <h2 className="text-center">{`Let\'s cook something together!`}</h2>
       <form onSubmit={handleSubmit(submitForm)} className='w-full'>
         <RecipeInput register={register} errors={errors} selectedPromptType={selectedPromptType} setSelectedPromptType={setSelectedPromptType} value={recipeInput[selectedPromptType]} onChange={(e) => onChangeInput(e)} onClear={onClearInput} />
         <MealTypeDropdown register={register} selectedOption={mealType} setSelectedOption={setMealType} options={mealTypeOptions} />
         <Preferences selectedPreferences={selectedPreferences} setSelectedPreferences={setSelectedPreferences} />
-        <motion.button
-          type="button"
-          className="mt-4 py-2 px-4 rounded w-full border flex items-center justify-center gap-2 font-bold"
-          animate={{
-            borderColor: isDarkMode ? '#ff637e' : '#a50036',
-            color: isDarkMode ? '#ff637e' : '#a50036',
-            backgroundColor: 'transparent'
-          }}
-          whileHover={{
-            backgroundColor: isDarkMode ? '#ff637e' : '#fff1f2',
-            borderColor: isDarkMode ? '#ff637e' : '#a50036',
-            color: isDarkMode ? '#fff' : '#a50036'
-          }}
-          whileTap={{
-            backgroundColor: isDarkMode ? '#ec003f' : '#ffa1ad',
-            color: isDarkMode ? '#fff' : '#a50036',
-            borderColor: isDarkMode ? '#ec003f' : '#a50036'
-          }}
-          onClick={onReset}
-        >
-          <XMarkIcon aria-hidden='true' className="w-4 h-4" />
-          {'Reset selections'}
-        </motion.button>
         <motion.button
           type="submit"
           className="mt-4 text-white py-2 px-4 rounded w-full font-bold dark:text-gray-900"
@@ -111,8 +87,30 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onSubmit, recipeInput, setRecip
         >
           {'Generate Recipe'}
         </motion.button>
+        <motion.button
+          type="button"
+          className="mt-4 py-2 px-4 rounded w-full border flex items-center justify-center gap-2 font-bold"
+          animate={{
+            borderColor: isDarkMode ? '#d1d5dc' : '#6a7282',
+            color: isDarkMode ? '#d1d5dc' : '#6a7282',
+            backgroundColor: 'transparent'
+          }}
+          whileHover={{
+            backgroundColor: isDarkMode ? '#364153' : '#e5e7eb',
+            borderColor: isDarkMode ? '#364153' : '#6a7282',
+            color: isDarkMode ? '#fff' : '#6a7282'
+          }}
+          whileTap={{
+            backgroundColor: isDarkMode ? '#1e2939' : '#d1d5dc',
+            color: isDarkMode ? '#fff' : '#6a7282',
+            borderColor: isDarkMode ? '#1e2939' : '#d1d5dc'
+          }}
+          onClick={onReset}
+        >
+          {'Reset selections'}
+        </motion.button>
       </form>
-    </>
+    </motion.div>
   );
 };
 
